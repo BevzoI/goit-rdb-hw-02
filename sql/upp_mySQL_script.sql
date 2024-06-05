@@ -30,16 +30,26 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`order` (
   `id` INT NOT NULL,
-  `order-number` INT NULL,
-  `order-date` DATE NULL,
-  `client` INT NULL,
+  `order_number` INT NULL,
+  `order_date` DATE NULL,
+  `clientId` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_order_client_idx` (`client` ASC) VISIBLE,
+  INDEX `fk_order_client_idx` (`clientId` ASC) VISIBLE,
   CONSTRAINT `fk_order_client`
-    FOREIGN KEY (`client`)
+    FOREIGN KEY (`clientId`)
     REFERENCES `mydb`.`client` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`product_number`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`product_number` (
+  `id` INT NOT NULL,
+  `product_name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -56,6 +66,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`product` (
   CONSTRAINT `fk_product_order`
     FOREIGN KEY (`order_id`)
     REFERENCES `mydb`.`order` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product_product_number`
+    FOREIGN KEY (`order_id`)
+    REFERENCES `mydb`.`product_number` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
